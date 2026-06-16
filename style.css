@@ -1,0 +1,390 @@
+/* ==========================================================================
+   1. VARIABLES DE COLORES (Edita aquí para cambiar los tonos del sistema)
+   ========================================================================== */
+:root {
+    --bg-main: #0f1319;       /* Fondo general de la aplicación */
+    --bg-card: #181f29;       /* Fondo de tarjetas, tablas y barra lateral */
+    --bg-input: #11161d;      /* Fondo de los campos de texto e inputs */
+    --text-main: #e2e8f0;     /* Color de texto principal (blanco grisáceo) */
+    --text-muted: #718096;    /* Color de texto secundario o secundario */
+    --accent-blue: #00b4d8;   /* Azul neón para elementos activos e iconos */
+    --accent-green: #2ecc71;  /* Verde para entradas positivas */
+    --accent-red: #e74c3c;    /* Rojo para alertas y stock bajo */
+    --border-color: #232d3b;  /* Color de las líneas divisorias */
+}
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    min-height: 100vh;
+}
+
+/* Contenedor Grid para separar Sidebar de Main Content */
+.container {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+}
+
+/* ==========================================================================
+   2. ESTILOS DE LA BARRA LATERAL (SIDEBAR)
+   ========================================================================== */
+.sidebar {
+    background-color: var(--bg-card);
+    border-right: 1px solid var(--border-color);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto de rayo/neón azul de fondo inspirado en tu imagen */
+.sidebar::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    width: 150px;
+    height: 100%;
+    background: radial-gradient(circle, rgba(0,180,216,0.15) 0%, transparent 70%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--border-color);
+    z-index: 2;
+}
+
+.logo-icon {
+    font-size: 24px;
+    color: var(--text-main);
+}
+
+.logo-container h2 {
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+/* Elementos del Menú */
+.menu {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 2;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.menu-item:hover {
+    color: var(--text-main);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Grupo del menú que está activo (Inventario) */
+.menu-group.active {
+    background-color: rgba(0, 180, 216, 0.05);
+    border-left: 3px solid var(--accent-blue);
+    border-radius: 0 8px 8px 0;
+}
+
+.menu-group.active .main-group {
+    color: var(--accent-blue);
+    font-weight: 600;
+}
+
+.arrow {
+    margin-left: auto;
+}
+
+/* Submenú interno */
+.submenu {
+    padding-left: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.submenu-item {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 5px 0;
+}
+
+.submenu-item.active {
+    color: var(--accent-blue);
+}
+
+/* ==========================================================================
+   3. PANEL PRINCIPAL Y BARRA SUPERIOR
+   ========================================================================== */
+.main-content {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    position: relative;
+}
+
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-toggle {
+    cursor: pointer;
+    font-size: 28px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: var(--text-muted);
+}
+
+.header-actions span {
+    cursor: pointer;
+}
+
+.user-avatar {
+    width: 35px;
+    height: 35px;
+    background-color: var(--text-muted);
+    border-radius: 50%;
+}
+
+/* ==========================================================================
+   4. TARJETAS INFORMATIVAS (KPI CARDS)
+   ========================================================================== */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-title {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.card-value {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.card-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Colores dinámicos para los iconos de las tarjetas */
+.card-icon.blue { background-color: rgba(0, 180, 216, 0.1); color: var(--accent-blue); }
+.card-icon.green { background-color: rgba(46, 204, 113, 0.1); color: var(--accent-green); }
+.card-icon.red { background-color: rgba(231, 76, 60, 0.1); color: var(--accent-red); }
+
+.green { color: var(--accent-green); }
+.red { color: var(--accent-red); }
+
+/* ==========================================================================
+   5. SECCIÓN DE ADMINISTRACIÓN Y TABLA DE PRODUCTOS
+   ========================================================================== */
+.product-management {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Buscador */
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-box input {
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 8px 35px 8px 12px;
+    border-radius: 6px;
+    outline: none;
+    width: 200px;
+}
+
+.search-box span {
+    position: absolute;
+    right: 10px;
+    color: var(--text-muted);
+    font-size: 18px;
+}
+
+/* Tabla Estilos */
+.table-container {
+    overflow-x: auto;
+}
+
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.product-table th, .product-table td {
+    padding: 14px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 14px;
+}
+
+.product-table th {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Marcadores de posición para las imágenes de los joggers */
+.product-img-placeholder {
+    width: 50px;
+    height: 60px;
+    border-radius: 6px;
+}
+.teal-bg { background-color: #115e59; } /* Color de fondo simulación verde teal */
+.black-bg { background-color: #1e293b; } /* Color de fondo simulación negro */
+
+.text-muted { color: var(--text-muted); font-size: 12px; }
+.text-danger { color: var(--accent-red); font-weight: bold; }
+
+/* Iconos de acción (Editar / Eliminar) */
+.action-icon {
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 18px;
+    color: var(--text-muted);
+    transition: color 0.2s;
+}
+
+.action-icon.edit:hover { color: var(--accent-blue); }
+.action-icon.delete:hover { color: var(--accent-red); }
+
+/* ==========================================================================
+   6. VENTANA FLOTANTE (REGISTRAR VENTA MODAL)
+   ========================================================================== */
+.sale-modal {
+    position: absolute;
+    bottom: 20px;
+    right: 25px;
+    width: 350px;
+    background-color: var(--bg-card);
+    border: 2px solid #005f73; /* Borde cian oscuro destacado */
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    z-index: 10;
+}
+
+.modal-header {
+    background-color: rgba(0, 180, 216, 0.05);
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.close-icon {
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--text-muted);
+}
+
+.modal-body {
+    padding: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 12px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+label {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* Campos de entrada del Formulario */
+input[type="text"], input[type="number"], select {
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 8px;
+    border-radius: 6px;
+    outline: none;
+    font-size: 13px;
+}
+
+.modal-footer {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.stock-preview {
+    font-size: 12px;
+    color: var(--accent-blue);
+    font-weight: 500;
+}
