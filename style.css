@@ -9,7 +9,6 @@
     --text-muted: #718096;    /* Color de texto secundario o secundario */
     --accent-blue: #00b4d8;   /* Azul neón para elementos activos e iconos */
     --accent-green: #2ecc71;  /* Verde para entradas positivas */
-    --accent-red: #e74c3c;    /* Rojo para alertas y stock bajo */
     --border-color: #232d3b;  /* Color de las líneas divisorias */
 }
 
@@ -324,10 +323,16 @@ body {
     right: 25px;
     width: 350px;
     background-color: var(--bg-card);
-    border: 2px solid #005f73; /* Borde cian oscuro destacado */
+    border: 2px solid #005f73;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     z-index: 10;
+    
+    display: none; /* 1. Inicia oculto */
+}
+
+.sale-modal.show {
+    display: block; /* 2. JavaScript activa esto para mostrarlo */
 }
 
 .modal-header {
