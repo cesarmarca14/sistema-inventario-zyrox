@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Zyrox Sport - Inventario</title>
+    <title>Zyrox Sport - Inventario </title>
     <link rel="stylesheet" href="stylepricipal.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
 </head>
