@@ -1,6 +1,6 @@
 
 <?php 
-// Incluimos la conexión a la base de datos
+// Incluimos la conexión a la base de datossss
 include 'includes/db.php'; 
 
 // Hacemos la consulta para traer los productos
