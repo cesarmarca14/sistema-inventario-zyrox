@@ -204,7 +204,7 @@ $resultado = $conexion->query($sql);
 
 <section class="cards-grid">
     <div class="card">
-        <h3>Total Productos</h3>
+        <h3>Total Productos </h3>
         <p>120</p>
     </div>
 </section>
