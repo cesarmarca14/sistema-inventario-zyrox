@@ -1,13 +1,21 @@
+<?php 
+// Incluimos la conexión a la base de datos
+include 'includes/db.php'; 
+
+// Hacemos la consulta para traer los productos
+$sql = "SELECT * FROM productos";
+$resultado = $conexion->query($sql);
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zyrox Sport - Inventario</title>
-    <link rel="stylesheet" href="./style.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
 </head>
-
 <body>
 
     <div class="container">
@@ -29,7 +37,7 @@
                     </a>
                     <div class="submenu">
                         <a href="#" class="submenu-item active">Productos</a>
-                        <a href="#" class="submenu-item">Entradas</a>
+                        <a href="agregar_producto.php" class="submenu-item">Agregar productos</a>
                         <a href="#" class="submenu-item">Ventas</a>
                     </div>
                 </div>
@@ -57,7 +65,7 @@
                 <div class="card">
                     <div class="card-info">
                         <p class="card-title">Total Productos</p>
-                        <h3 class="card-value">120</h3>
+                        <h3 class="card-value"><?php echo $resultado->num_rows; ?></h3>
                     </div>
                     <div class="card-icon blue">
                         <span class="material-icons-outlined">description</span>
@@ -106,83 +114,52 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <?php 
+                            // Renderizado dinámico desde MySQL
+                            if ($resultado->num_rows > 0) {
+                                while($row = $resultado->fetch_assoc()) {
+                                    // Asignar color dinámico al placeholder según el color guardado
+                                    $color_producto = isset($row['color']) ? $row['color'] : 'No especificado';
+                                    $bg_color = ($color_producto == 'Negro') ? 'black-bg' : 'teal-bg';
+                            ?>
                             <tr>
                                 <td><input type="checkbox"></td>
                                 <td>
-                                    <div class="product-img-placeholder teal-bg"></div>
+                                    <span class="text-muted">Color: <?php echo $color_producto; ?></span>
+                                    <div class="product-img-placeholder <?php echo $bg_color; ?>"></div>
                                 </td>
                                 <td>
-                                    <strong>Jogger Deportivo Zyrox</strong><br>
-                                    <span class="text-muted">Color: melange</span>
-                                </td>
-                                <td>Pantalones<br><span class="text-muted">Verde Teal</span></td>
-                                <td>M</td>
-                                <td>45</td>
-                                <td>
-                                    <span class="material-icons-outlined action-icon edit btn-editar">edit</span>
-                                    <span class="material-icons-outlined action-icon delete">delete</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td>
-                                    <div class="product-img-placeholder black-bg"></div>
+                                    <strong><?php echo $row['nombre']; ?></strong><br>
                                 </td>
                                 <td>
-                                    <strong>Jogger Deportivo Zyrox</strong><br>
-                                    <span class="text-muted">Color: Negro</span>
-                                </td>
-                                <td>Pantalones<br><span class="text-muted">Negro</span></td>
-                                <td>L</td>
-                                <td>8</td>
+    <?php echo $row['categoria']; ?><br>
+    <span class="text-muted">
+        <?php echo isset($row['detalle_categoria']) ? $row['detalle_categoria'] : ''; ?>
+    </span>
+</td>
+                                <td><?php echo strtoupper($row['talla']); ?></td>
+                                <td><?php echo $row['stock']; ?></td>
                                 <td>
                                     <span class="material-icons-outlined action-icon edit btn-editar">edit</span>
+                                    <a href="eliminar_producto.php?id=<?php echo $row['id']; ?>" onclick="return confirm('¿Seguro que deseas eliminar este producto de Zyrox Sport?');" style="color: inherit; text-decoration: none;">
                                     <span class="material-icons-outlined action-icon delete">delete</span>
+                                    </a>
                                 </td>
                             </tr>
-                             <tr>
-                                <td><input type="checkbox"></td>
-                                <td>
-                                    <div class="product-img-placeholder black-bg"></div>
-                                </td>
-                                <td>
-                                    <strong>Jogger Deportivo Zyrox</strong><br>
-                                    <span class="text-muted">Color: verde botella</span>
-                                </td>
-                                <td>Pantalones<br><span class="text-muted">Negro</span></td>
-                                <td>s</td>
-                                <td>12</td>
-                                <td>
-                                    <span class="material-icons-outlined action-icon edit btn-editar">edit</span>
-                                    <span class="material-icons-outlined action-icon delete">delete</span>
-                                </td>
-                            </tr>
-                             <tr>
-                                <td><input type="checkbox"></td>
-                                <td>
-                                    <div class="product-img-placeholder black-bg"></div>
-                                </td>
-                                <td>
-                                    <strong>Jogger Deportivo Zyrox</strong><br>
-                                    <span class="text-muted">Color: marino</span>
-                                </td>
-                                <td>Pantalones<br><span class="text-muted">Negro</span></td>
-                                <td>XL</td>
-                                <td>9</td>
-                                <td>
-                                    <span class="material-icons-outlined action-icon edit btn-editar">edit</span>
-                                    <span class="material-icons-outlined action-icon delete">delete</span>
-                                </td>
-                            </tr>
+                            <?php 
+                                }
+                            } else {
+                                echo "<tr><td colspan='7' style='text-align:center;'>No hay productos registrados</td></tr>";
+                            }
+                            ?>
                         </tbody>    
                     </table>
                 </div>
             </section>
 
-            <div class="sale-modal">
-                <div class="modal-header">
+            <div class="sale-modal" style="display:none;"> <div class="modal-header">
                     <h4>Registrar Venta</h4>
-                    <<span class="material-icons-outlined close-icon btn-cerrar">close</span>
+                    <span class="material-icons-outlined close-icon btn-cerrar">close</span>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -213,5 +190,6 @@
     </div>
 
 </body>
-<script src="./script.js"></script>
+<script src="assets/js/script.js"></script>
 </html>
+<?php $conexion->close(); // Cerramos la conexión ?>
